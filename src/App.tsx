@@ -1,10 +1,8 @@
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import React from "react";
 
 // Contexts
 import { AuthProvider } from "./context/AuthContext";
@@ -30,6 +28,11 @@ import BookingsScreen from "./screens/BookingsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import NotFound from "./pages/NotFound";
 
+// Screens
+import SplashScreen from "./screens/SplashScreen";
+import OnboardingScreen from "./screens/OnboardingScreen";
+import ChooseRoleScreen from "./screens/ChooseRoleScreen";
+
 // Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,6 +54,11 @@ const App = () => {
               <Sonner />
               <BrowserRouter>
                 <Routes>
+                  {/* Initial Routes */}
+                  <Route path="/" element={<SplashScreen />} />
+                  <Route path="/onboarding" element={<OnboardingScreen />} />
+                  <Route path="/choose-role" element={<ChooseRoleScreen />} />
+
                   {/* Public Routes */}
                   <Route path="/login" element={<LoginScreen />} />
                   <Route path="/signup" element={<SignupScreen />} />
