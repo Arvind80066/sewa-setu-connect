@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import React from "react";
 
 // Contexts
 import { AuthProvider } from "./context/AuthContext";
@@ -29,45 +30,57 @@ import BookingsScreen from "./screens/BookingsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60000,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <ThemeProvider>
-        <NotificationProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                {/* Public Routes */}
-                <Route path="/login" element={<LoginScreen />} />
-                <Route path="/signup" element={<SignupScreen />} />
-                <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
+const App = () => {
+  return (
+    <React.StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <ThemeProvider>
+            <NotificationProvider>
+              <TooltipProvider>
+                <Toaster />
+                <Sonner />
+                <BrowserRouter>
+                  <Routes>
+                    {/* Public Routes */}
+                    <Route path="/login" element={<LoginScreen />} />
+                    <Route path="/signup" element={<SignupScreen />} />
+                    <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
 
-                {/* Protected Routes */}
-                <Route element={<PrivateRoute />}>
-                  <Route element={<AppLayout />}>
-                    <Route path="/" element={<HomeScreen />} />
-                    <Route path="/categories" element={<ServiceCategoryListScreen />} />
-                    <Route path="/category/:categoryId" element={<CategoryProvidersScreen />} />
-                    <Route path="/provider/:providerId" element={<ServiceProviderScreen />} />
-                    <Route path="/booking/:providerId" element={<BookingScreen />} />
-                    <Route path="/bookings" element={<BookingsScreen />} />
-                    <Route path="/profile" element={<ProfileScreen />} />
-                  </Route>
-                </Route>
+                    {/* Protected Routes */}
+                    <Route element={<PrivateRoute />}>
+                      <Route element={<AppLayout />}>
+                        <Route path="/" element={<HomeScreen />} />
+                        <Route path="/categories" element={<ServiceCategoryListScreen />} />
+                        <Route path="/category/:categoryId" element={<CategoryProvidersScreen />} />
+                        <Route path="/provider/:providerId" element={<ServiceProviderScreen />} />
+                        <Route path="/booking/:providerId" element={<BookingScreen />} />
+                        <Route path="/bookings" element={<BookingsScreen />} />
+                        <Route path="/profile" element={<ProfileScreen />} />
+                      </Route>
+                    </Route>
 
-                {/* 404 Route */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </NotificationProvider>
-      </ThemeProvider>
-    </AuthProvider>
-  </QueryClientProvider>
-);
+                    {/* 404 Route */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </BrowserRouter>
+              </TooltipProvider>
+            </NotificationProvider>
+          </ThemeProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </React.StrictMode>
+  );
+};
 
 export default App;
