@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { LogoIcon } from 'lucide-react';
+import { Layers } from 'lucide-react'; // Replace LogoIcon with a valid Lucide icon
 
 const SplashScreen = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const SplashScreen = () => {
         transition={{ duration: 0.5 }}
         className="text-center"
       >
-        <LogoIcon className="w-24 h-24 text-white mb-4" />
+        <Layers className="w-24 h-24 text-white mb-4" /> {/* Changed from LogoIcon to Layers */}
         <motion.h1
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
