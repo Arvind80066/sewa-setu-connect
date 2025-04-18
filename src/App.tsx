@@ -42,44 +42,42 @@ const queryClient = new QueryClient({
 
 const App = () => {
   return (
-    <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <ThemeProvider>
-            <NotificationProvider>
-              <TooltipProvider>
-                <Toaster />
-                <Sonner />
-                <BrowserRouter>
-                  <Routes>
-                    {/* Public Routes */}
-                    <Route path="/login" element={<LoginScreen />} />
-                    <Route path="/signup" element={<SignupScreen />} />
-                    <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <ThemeProvider>
+          <NotificationProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Routes>
+                  {/* Public Routes */}
+                  <Route path="/login" element={<LoginScreen />} />
+                  <Route path="/signup" element={<SignupScreen />} />
+                  <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
 
-                    {/* Protected Routes */}
-                    <Route element={<PrivateRoute />}>
-                      <Route element={<AppLayout />}>
-                        <Route path="/" element={<HomeScreen />} />
-                        <Route path="/categories" element={<ServiceCategoryListScreen />} />
-                        <Route path="/category/:categoryId" element={<CategoryProvidersScreen />} />
-                        <Route path="/provider/:providerId" element={<ServiceProviderScreen />} />
-                        <Route path="/booking/:providerId" element={<BookingScreen />} />
-                        <Route path="/bookings" element={<BookingsScreen />} />
-                        <Route path="/profile" element={<ProfileScreen />} />
-                      </Route>
+                  {/* Protected Routes */}
+                  <Route element={<PrivateRoute />}>
+                    <Route element={<AppLayout />}>
+                      <Route path="/" element={<HomeScreen />} />
+                      <Route path="/categories" element={<ServiceCategoryListScreen />} />
+                      <Route path="/category/:categoryId" element={<CategoryProvidersScreen />} />
+                      <Route path="/provider/:providerId" element={<ServiceProviderScreen />} />
+                      <Route path="/booking/:providerId" element={<BookingScreen />} />
+                      <Route path="/bookings" element={<BookingsScreen />} />
+                      <Route path="/profile" element={<ProfileScreen />} />
                     </Route>
+                  </Route>
 
-                    {/* 404 Route */}
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </BrowserRouter>
-              </TooltipProvider>
-            </NotificationProvider>
-          </ThemeProvider>
-        </AuthProvider>
-      </QueryClientProvider>
-    </React.StrictMode>
+                  {/* 404 Route */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </TooltipProvider>
+          </NotificationProvider>
+        </ThemeProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 };
 
