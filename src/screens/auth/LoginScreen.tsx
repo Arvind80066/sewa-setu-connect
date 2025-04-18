@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 
@@ -11,6 +11,7 @@ const LoginScreen = () => {
   const { login } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +23,9 @@ const LoginScreen = () => {
         title: "Login Successful",
         description: "Welcome back to SewaSetu!",
       });
-      navigate('/');
+      // Navigate to the home page or to the page the user was trying to access
+      const from = location.state?.from || '/home';
+      navigate(from);
     } catch (error: any) {
       toast({
         title: "Login Failed",

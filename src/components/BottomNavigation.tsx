@@ -7,8 +7,8 @@ const BottomNavigation: React.FC = () => {
   const currentPath = location.pathname;
 
   const isActive = (path: string) => {
-    if (path === '/' && currentPath === '/') return true;
-    if (path !== '/' && currentPath.startsWith(path)) return true;
+    if (path === '/home' && currentPath === '/home') return true;
+    if (path !== '/home' && currentPath.startsWith(path)) return true;
     return false;
   };
 
@@ -16,9 +16,9 @@ const BottomNavigation: React.FC = () => {
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-10">
       <div className="container mx-auto px-4 flex justify-between">
         <Link
-          to="/"
+          to="/home"
           className={`flex flex-col items-center py-2 flex-1 ${
-            isActive('/') ? 'text-sewasetu-primary' : 'text-gray-500'
+            isActive('/home') ? 'text-sewasetu-primary' : 'text-gray-500'
           }`}
         >
           <svg
