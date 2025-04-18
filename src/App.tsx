@@ -1,3 +1,4 @@
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
@@ -67,7 +68,7 @@ const App = () => {
                   {/* Protected Routes */}
                   <Route element={<PrivateRoute />}>
                     <Route element={<AppLayout />}>
-                      <Route path="/" element={<HomeScreen />} />
+                      <Route path="/home" element={<HomeScreen />} />
                       <Route path="/categories" element={<ServiceCategoryListScreen />} />
                       <Route path="/category/:categoryId" element={<CategoryProvidersScreen />} />
                       <Route path="/provider/:providerId" element={<ServiceProviderScreen />} />

@@ -34,7 +34,7 @@ const SignupScreen = () => {
         title: "Account created successfully",
         description: "Welcome to SewaSetu!",
       });
-      navigate('/');
+      navigate('/categories'); // Change this line to navigate to the home dashboard instead of '/'
     } catch (error: any) {
       toast({
         title: "Signup Failed",
