@@ -32,8 +32,9 @@ const ServiceProviderMap: React.FC<ServiceProviderMapProps> = ({ providers, onPr
 
   return (
     <MapContainer
-      center={[userLocation.latitude, userLocation.longitude]}
+      center={[userLocation.latitude, userLocation.longitude] as L.LatLngExpression}
       zoom={13}
+      scrollWheelZoom={false}
       style={{ height: '400px', width: '100%', borderRadius: '0.5rem' }}
     >
       <TileLayer
@@ -42,7 +43,7 @@ const ServiceProviderMap: React.FC<ServiceProviderMapProps> = ({ providers, onPr
       />
       
       {/* User location marker */}
-      <Marker position={[userLocation.latitude, userLocation.longitude]}>
+      <Marker position={[userLocation.latitude, userLocation.longitude] as L.LatLngExpression}>
         <Popup>Your location</Popup>
       </Marker>
 
@@ -50,7 +51,7 @@ const ServiceProviderMap: React.FC<ServiceProviderMapProps> = ({ providers, onPr
       {providers.map((provider) => (
         <Marker
           key={provider.id}
-          position={[provider.location.latitude, provider.location.longitude]}
+          position={[provider.location.latitude, provider.location.longitude] as L.LatLngExpression}
           eventHandlers={{
             click: () => onProviderClick?.(provider),
           }}
