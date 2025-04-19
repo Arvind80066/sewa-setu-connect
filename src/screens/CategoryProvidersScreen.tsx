@@ -1,9 +1,10 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getCategoryById, getNearbyProviders, ServiceProvider } from '@/services/mockData';
-import { getCurrentLocation } from '@/services/locationService';
+import { getCurrentLocation, isWithinRadius } from '@/services/locationService';
 import ServiceProviderCard from '@/components/ServiceProviderCard';
+import ServiceProviderMap from '@/components/ServiceProviderMap';
+import { useNavigate } from 'react-router-dom';
 
 const CategoryProvidersScreen = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
@@ -11,6 +12,7 @@ const CategoryProvidersScreen = () => {
   const [category, setCategory] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [sortBy, setSortBy] = useState<'distance' | 'rating' | 'price'>('distance');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadProviders = async () => {
@@ -22,7 +24,16 @@ const CategoryProvidersScreen = () => {
         setCategory(catData);
 
         const location = await getCurrentLocation();
-        const providerList = getNearbyProviders(location.latitude, location.longitude, categoryId);
+        const providerList = getNearbyProviders(location.latitude, location.longitude, categoryId)
+          .filter(provider => 
+            isWithinRadius(
+              location.latitude,
+              location.longitude,
+              provider.location.latitude,
+              provider.location.longitude,
+              10 // 10km radius
+            )
+          );
         setProviders(providerList);
       } catch (error) {
         console.error('Error loading providers:', error);
@@ -33,6 +44,10 @@ const CategoryProvidersScreen = () => {
 
     loadProviders();
   }, [categoryId]);
+
+  const handleProviderClick = (provider: ServiceProvider) => {
+    navigate(`/provider/${provider.id}`);
+  };
 
   const sortedProviders = [...providers].sort((a, b) => {
     switch (sortBy) {
@@ -48,7 +63,7 @@ const CategoryProvidersScreen = () => {
   });
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="container mx-auto px-4 py-6 pb-20">
       {/* Back navigation */}
       <Link to="/categories" className="flex items-center text-sewasetu-primary mb-4">
         <svg
@@ -78,6 +93,15 @@ const CategoryProvidersScreen = () => {
           <p className="text-gray-600 mt-2">{category.description}</p>
         </div>
       )}
+
+      {/* Map Section */}
+      <div className="mb-6">
+        <h2 className="text-xl font-bold text-gray-800 mb-4">Service Providers Near You</h2>
+        <ServiceProviderMap 
+          providers={sortedProviders}
+          onProviderClick={handleProviderClick}
+        />
+      </div>
 
       {/* Filters */}
       <div className="mb-6 flex flex-wrap gap-2">
