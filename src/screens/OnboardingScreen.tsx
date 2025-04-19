@@ -14,17 +14,17 @@ import { Button } from "@/components/ui/button";
 
 const onboardingSteps = [
   {
-    title: "Easily book trusted services",
+    title: "Quick & Reliable Services",
     description: "Find and book verified service providers in your area",
     icon: Search,
   },
   {
-    title: "Find the best workers near you",
+    title: "Local Experts at Your Fingertips",
     description: "Locate skilled professionals in your neighborhood",
     icon: MapPin,
   },
   {
-    title: "Track your service in real-time",
+    title: "Real-Time Service Tracking",
     description: "Stay updated with live progress of your service request",
     icon: Clock,
   },
