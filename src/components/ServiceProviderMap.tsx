@@ -30,9 +30,11 @@ const ServiceProviderMap: React.FC<ServiceProviderMapProps> = ({ providers, onPr
     loadUserLocation();
   }, []);
 
+  const position: L.LatLngExpression = [userLocation.latitude, userLocation.longitude];
+
   return (
     <MapContainer
-      center={[userLocation.latitude, userLocation.longitude] as L.LatLngExpression}
+      center={position}
       zoom={13}
       scrollWheelZoom={false}
       style={{ height: '400px', width: '100%', borderRadius: '0.5rem' }}
@@ -43,7 +45,7 @@ const ServiceProviderMap: React.FC<ServiceProviderMapProps> = ({ providers, onPr
       />
       
       {/* User location marker */}
-      <Marker position={[userLocation.latitude, userLocation.longitude] as L.LatLngExpression}>
+      <Marker position={position}>
         <Popup>Your location</Popup>
       </Marker>
 
