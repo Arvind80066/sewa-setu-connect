@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { ServiceProvider } from '@/services/mockData';
 import { getCurrentLocation } from '@/services/locationService';
 import 'leaflet/dist/leaflet.css';
@@ -19,6 +19,15 @@ interface ServiceProviderMapProps {
   onProviderClick?: (provider: ServiceProvider) => void;
 }
 
+// This component is needed to update the map center after the map is initialized
+const MapCenterUpdater = ({ center }: { center: [number, number] }) => {
+  const map = useMap();
+  React.useEffect(() => {
+    map.setView(center);
+  }, [center, map]);
+  return null;
+};
+
 const ServiceProviderMap: React.FC<ServiceProviderMapProps> = ({ providers, onProviderClick }) => {
   const [userLocation, setUserLocation] = React.useState({ latitude: 12.9716, longitude: 77.5946 });
 
@@ -30,51 +39,55 @@ const ServiceProviderMap: React.FC<ServiceProviderMapProps> = ({ providers, onPr
     loadUserLocation();
   }, []);
 
-  const position = [userLocation.latitude, userLocation.longitude] as [number, number];
+  const position: [number, number] = [userLocation.latitude, userLocation.longitude];
 
   return (
-    <MapContainer
-      center={position}
-      zoom={13}
-      scrollWheelZoom={false}
-      style={{ height: '400px', width: '100%', borderRadius: '0.5rem' }}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      
-      {/* User location marker */}
-      <Marker position={position}>
-        <Popup>Your location</Popup>
-      </Marker>
-
-      {/* Service provider markers */}
-      {providers.map((provider) => {
-        const providerPosition = [
-          provider.location.latitude,
-          provider.location.longitude
-        ] as [number, number];
+    <div style={{ height: '400px', width: '100%', borderRadius: '0.5rem' }}>
+      <MapContainer
+        style={{ height: '100%', width: '100%' }}
+        zoom={13}
+        scrollWheelZoom={false}
+      >
+        {/* Use the updater component to set the center */}
+        <MapCenterUpdater center={position} />
         
-        return (
-          <Marker
-            key={provider.id}
-            position={providerPosition}
-            eventHandlers={{
-              click: () => onProviderClick?.(provider),
-            }}
-          >
-            <Popup>
-              <div>
-                <h3 className="font-bold">{provider.name}</h3>
-                <p>{provider.skills.join(', ')}</p>
-                <p>₹{provider.hourlyRate}/hour</p>
-              </div>
-            </Popup>
-          </Marker>
-        );
-      })}
-    </MapContainer>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        
+        {/* User location marker */}
+        <Marker position={position}>
+          <Popup>Your location</Popup>
+        </Marker>
+
+        {/* Service provider markers */}
+        {providers.map((provider) => {
+          const providerPosition: [number, number] = [
+            provider.location.latitude,
+            provider.location.longitude
+          ];
+          
+          return (
+            <Marker
+              key={provider.id}
+              position={providerPosition}
+              eventHandlers={{
+                click: () => onProviderClick?.(provider),
+              }}
+            >
+              <Popup>
+                <div>
+                  <h3 className="font-bold">{provider.name}</h3>
+                  <p>{provider.skills.join(', ')}</p>
+                  <p>₹{provider.hourlyRate}/hour</p>
+                </div>
+              </Popup>
+            </Marker>
+          );
+        })}
+      </MapContainer>
+    </div>
   );
 };
 
