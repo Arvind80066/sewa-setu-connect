@@ -1,9 +1,18 @@
 
-import React, { useEffect, useRef, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import React from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { ServiceProvider } from '@/services/mockData';
 import { getCurrentLocation } from '@/services/locationService';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+
+// Fix for default marker icons in Leaflet
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 interface ServiceProviderMapProps {
   providers: ServiceProvider[];
@@ -11,83 +20,52 @@ interface ServiceProviderMapProps {
 }
 
 const ServiceProviderMap: React.FC<ServiceProviderMapProps> = ({ providers, onProviderClick }) => {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const [mapboxToken, setMapboxToken] = useState('');
+  const [userLocation, setUserLocation] = React.useState({ latitude: 12.9716, longitude: 77.5946 });
 
-  useEffect(() => {
-    const loadMap = async () => {
-      if (!mapContainer.current || !mapboxToken) return;
+  React.useEffect(() => {
+    const loadUserLocation = async () => {
+      const location = await getCurrentLocation();
+      setUserLocation(location);
+    };
+    loadUserLocation();
+  }, []);
 
-      const userLocation = await getCurrentLocation();
-
-      mapboxgl.accessToken = mapboxToken;
+  return (
+    <MapContainer
+      center={[userLocation.latitude, userLocation.longitude]}
+      zoom={13}
+      style={{ height: '400px', width: '100%', borderRadius: '0.5rem' }}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
       
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center: [userLocation.longitude, userLocation.latitude],
-        zoom: 12
-      });
+      {/* User location marker */}
+      <Marker position={[userLocation.latitude, userLocation.longitude]}>
+        <Popup>Your location</Popup>
+      </Marker>
 
-      // Add user location marker
-      new mapboxgl.Marker({ color: '#FF0000' })
-        .setLngLat([userLocation.longitude, userLocation.latitude])
-        .setPopup(new mapboxgl.Popup().setHTML('<p>Your location</p>'))
-        .addTo(map.current);
-
-      // Add markers for providers
-      providers.forEach(provider => {
-        const marker = new mapboxgl.Marker({ color: '#4CAF50' })
-          .setLngLat([provider.location.longitude, provider.location.latitude])
-          .setPopup(
-            new mapboxgl.Popup().setHTML(`
-              <div>
-                <h3 class="font-bold">${provider.name}</h3>
-                <p>${provider.skills.join(', ')}</p>
-                <p>₹${provider.hourlyRate}/hour</p>
-              </div>
-            `)
-          )
-          .addTo(map.current);
-
-        // Add click handler
-        marker.getElement().addEventListener('click', () => {
-          onProviderClick?.(provider);
-        });
-      });
-
-      // Add navigation controls
-      map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
-    };
-
-    loadMap();
-
-    return () => {
-      if (map.current) {
-        map.current.remove();
-      }
-    };
-  }, [providers, mapboxToken, onProviderClick]);
-
-  // Temporary token input for development
-  if (!mapboxToken) {
-    return (
-      <div className="p-4">
-        <p className="mb-2 text-sm text-gray-600">
-          Please enter your Mapbox public token to view the map. You can get it from mapbox.com
-        </p>
-        <input
-          type="text"
-          placeholder="Enter Mapbox token"
-          className="w-full p-2 border rounded"
-          onChange={(e) => setMapboxToken(e.target.value)}
-        />
-      </div>
-    );
-  }
-
-  return <div ref={mapContainer} className="w-full h-[400px] rounded-lg" />;
+      {/* Service provider markers */}
+      {providers.map((provider) => (
+        <Marker
+          key={provider.id}
+          position={[provider.location.latitude, provider.location.longitude]}
+          eventHandlers={{
+            click: () => onProviderClick?.(provider),
+          }}
+        >
+          <Popup>
+            <div>
+              <h3 className="font-bold">{provider.name}</h3>
+              <p>{provider.skills.join(', ')}</p>
+              <p>₹{provider.hourlyRate}/hour</p>
+            </div>
+          </Popup>
+        </Marker>
+      ))}
+    </MapContainer>
+  );
 };
 
 export default ServiceProviderMap;
