@@ -30,7 +30,7 @@ const ServiceProviderMap: React.FC<ServiceProviderMapProps> = ({ providers, onPr
     loadUserLocation();
   }, []);
 
-  const position: L.LatLngExpression = [userLocation.latitude, userLocation.longitude];
+  const position = [userLocation.latitude, userLocation.longitude] as [number, number];
 
   return (
     <MapContainer
@@ -50,23 +50,30 @@ const ServiceProviderMap: React.FC<ServiceProviderMapProps> = ({ providers, onPr
       </Marker>
 
       {/* Service provider markers */}
-      {providers.map((provider) => (
-        <Marker
-          key={provider.id}
-          position={[provider.location.latitude, provider.location.longitude] as L.LatLngExpression}
-          eventHandlers={{
-            click: () => onProviderClick?.(provider),
-          }}
-        >
-          <Popup>
-            <div>
-              <h3 className="font-bold">{provider.name}</h3>
-              <p>{provider.skills.join(', ')}</p>
-              <p>₹{provider.hourlyRate}/hour</p>
-            </div>
-          </Popup>
-        </Marker>
-      ))}
+      {providers.map((provider) => {
+        const providerPosition = [
+          provider.location.latitude,
+          provider.location.longitude
+        ] as [number, number];
+        
+        return (
+          <Marker
+            key={provider.id}
+            position={providerPosition}
+            eventHandlers={{
+              click: () => onProviderClick?.(provider),
+            }}
+          >
+            <Popup>
+              <div>
+                <h3 className="font-bold">{provider.name}</h3>
+                <p>{provider.skills.join(', ')}</p>
+                <p>₹{provider.hourlyRate}/hour</p>
+              </div>
+            </Popup>
+          </Marker>
+        );
+      })}
     </MapContainer>
   );
 };
