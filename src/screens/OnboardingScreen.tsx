@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, MapPin, Clock } from 'lucide-react';
@@ -33,10 +33,12 @@ const onboardingSteps = [
 const OnboardingScreen = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const navigate = useNavigate();
+  const carouselApiRef = useRef(null);
 
   const handleNext = () => {
     if (currentStep < onboardingSteps.length - 1) {
       setCurrentStep(currentStep + 1);
+      carouselApiRef.current?.scrollNext();
     } else {
       navigate('/choose-role');
     }
@@ -45,6 +47,7 @@ const OnboardingScreen = () => {
   return (
     <div className="min-h-screen bg-background">
       <Carousel className="w-full h-screen" setApi={(api) => {
+        carouselApiRef.current = api;
         api?.on('select', () => {
           setCurrentStep(api.selectedScrollSnap());
         });
