@@ -36,7 +36,7 @@ const SplashScreen = () => {
             damping: 15,
             duration: 1.5,
           }}
-          className="mb-4"
+          className="flex justify-center mb-4"
         >
           <Layers className="w-24 h-24 text-white" />
         </motion.div>
