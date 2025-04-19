@@ -60,7 +60,7 @@ const OnboardingScreen = () => {
                 className="flex flex-col items-center justify-center h-screen px-4"
               >
                 <step.icon className="w-24 h-24 text-sewasetu-primary mb-8" />
-                <div className="bg-light-foreground p-6 rounded-xl shadow-md">
+                <div className="bg-orange-100 p-6 rounded-xl shadow-md">
                   <h2 className="text-2xl font-bold text-center mb-4">{step.title}</h2>
                   <p className="text-muted-foreground text-center mb-8">
                     {step.description}
@@ -90,4 +90,5 @@ const OnboardingScreen = () => {
 };
 
 export default OnboardingScreen;
+
 
