@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -61,21 +60,29 @@ const OnboardingScreen = () => {
                 className="flex flex-col items-center justify-center h-screen px-4"
               >
                 <step.icon className="w-24 h-24 text-sewasetu-primary mb-8" />
-                <h2 className="text-2xl font-bold text-center mb-4">{step.title}</h2>
-                <p className="text-muted-foreground text-center mb-8">
-                  {step.description}
-                </p>
+                <div className="bg-light-foreground p-6 rounded-xl shadow-md">
+                  <h2 className="text-2xl font-bold text-center mb-4">{step.title}</h2>
+                  <p className="text-muted-foreground text-center mb-8">
+                    {step.description}
+                  </p>
+                </div>
               </motion.div>
             </CarouselItem>
           ))}
         </CarouselContent>
         <div className="absolute bottom-10 w-full px-4">
-          <Button 
-            className="w-full"
-            onClick={handleNext}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
           >
-            {currentStep === onboardingSteps.length - 1 ? "Let's Go" : "Next"}
-          </Button>
+            <Button 
+              className="w-full"
+              onClick={handleNext}
+            >
+              {currentStep === onboardingSteps.length - 1 ? "Let's Go" : "Next"}
+            </Button>
+          </motion.div>
         </div>
       </Carousel>
     </div>
@@ -83,3 +90,4 @@ const OnboardingScreen = () => {
 };
 
 export default OnboardingScreen;
+
