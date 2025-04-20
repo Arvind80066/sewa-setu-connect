@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
@@ -36,6 +36,10 @@ import SplashScreen from "./screens/SplashScreen";
 import OnboardingScreen from "./screens/OnboardingScreen";
 import ChooseRoleScreen from "./screens/ChooseRoleScreen";
 
+// Help Screens
+import HelpCenterScreen from './screens/help/HelpCenterScreen';
+import PrivacyScreen from './screens/help/PrivacyScreen';
+
 // Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -66,6 +70,10 @@ const App = () => {
                   <Route path="/login" element={<LoginScreen />} />
                   <Route path="/signup" element={<SignupScreen />} />
                   <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
+
+                  {/* Help Center Routes */}
+                  <Route path="/help" element={<HelpCenterScreen />} />
+                  <Route path="/help/privacy" element={<PrivacyScreen />} />
 
                   {/* Protected Routes */}
                   <Route element={<PrivateRoute />}>
