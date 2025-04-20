@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -6,8 +7,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 
@@ -43,6 +42,10 @@ const OnboardingScreen = () => {
     }
   };
 
+  const handleSkip = () => {
+    navigate('/choose-role');
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Carousel className="w-full h-screen" setApi={(api) => {
@@ -70,6 +73,17 @@ const OnboardingScreen = () => {
             </CarouselItem>
           ))}
         </CarouselContent>
+
+        <div className="absolute top-4 right-4">
+          <Button 
+            variant="ghost" 
+            onClick={handleSkip}
+            className="text-gray-500"
+          >
+            Skip
+          </Button>
+        </div>
+        
         <div className="absolute bottom-10 w-full px-4">
           <motion.div
             initial={{ opacity: 0 }}
@@ -90,5 +104,3 @@ const OnboardingScreen = () => {
 };
 
 export default OnboardingScreen;
-
-

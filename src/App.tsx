@@ -24,9 +24,11 @@ import HomeScreen from "./screens/HomeScreen";
 import ServiceCategoryListScreen from "./screens/ServiceCategoryListScreen";
 import CategoryProvidersScreen from "./screens/CategoryProvidersScreen";
 import ServiceProviderScreen from "./screens/ServiceProviderScreen";
+import ServiceProvidersScreen from "./screens/ServiceProvidersScreen";
 import BookingScreen from "./screens/BookingScreen";
 import BookingsScreen from "./screens/BookingsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import UrgentServiceScreen from "./screens/UrgentServiceScreen";
 import NotFound from "./pages/NotFound";
 
 // Screens
@@ -71,17 +73,19 @@ const App = () => {
                       <Route path="/home" element={<HomeScreen />} />
                       <Route path="/categories" element={<ServiceCategoryListScreen />} />
                       <Route path="/category/:categoryId" element={<CategoryProvidersScreen />} />
+                      <Route path="/providers" element={<ServiceProvidersScreen />} />
                       <Route path="/provider/:providerId" element={<ServiceProviderScreen />} />
                       <Route path="/booking/:providerId" element={<BookingScreen />} />
                       <Route path="/bookings" element={<BookingsScreen />} />
+                      <Route path="/urgent" element={<UrgentServiceScreen />} />
                       <Route path="/profile" element={<ProfileScreen />} />
                     </Route>
                   </Route>
 
                   {/* Redirect root to home for logged in users */}
                   <Route 
-                    path="/" 
-                    element={<Navigate to="/onboarding" replace />} 
+                    path="/home" 
+                    element={<Navigate to="/home" replace />} 
                   />
 
                   {/* 404 Route */}

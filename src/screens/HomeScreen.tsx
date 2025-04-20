@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -108,14 +107,17 @@ const HomeScreen = () => {
 
         {/* Quick Booking */}
         <section className="mb-8">
-          <div className="sewasetu-card p-6 bg-gradient-to-r from-orange-50 to-yellow-50">
+          <div className="p-6 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg">
             <h3 className="text-lg font-bold text-sewasetu-dark mb-2">
               Need urgent help?
             </h3>
             <p className="text-gray-600 mb-4">
               Book our express service for immediate assistance
             </p>
-            <Link to="/urgent" className="sewasetu-btn-secondary">
+            <Link 
+              to="/urgent" 
+              className="inline-flex items-center justify-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+            >
               Book Urgent Service
             </Link>
           </div>
