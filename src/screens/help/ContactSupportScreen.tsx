@@ -91,7 +91,7 @@ const ContactSupportScreen = () => {
           <Button 
             variant="outline" 
             className="w-full"
-            onClick={() => window.location.href = 'tel:+1234567890'}
+            onClick={() => window.location.href = 'tel:+918006670417'}
           >
             Call Support
           </Button>
