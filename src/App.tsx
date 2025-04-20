@@ -39,6 +39,9 @@ import ChooseRoleScreen from "./screens/ChooseRoleScreen";
 // Help Screens
 import HelpCenterScreen from './screens/help/HelpCenterScreen';
 import PrivacyScreen from './screens/help/PrivacyScreen';
+import FAQScreen from './screens/help/FAQScreen';
+import ContactSupportScreen from './screens/help/ContactSupportScreen';
+import TermsScreen from './screens/help/TermsScreen';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -74,6 +77,9 @@ const App = () => {
                   {/* Help Center Routes */}
                   <Route path="/help" element={<HelpCenterScreen />} />
                   <Route path="/help/privacy" element={<PrivacyScreen />} />
+                  <Route path="/help/faq" element={<FAQScreen />} />
+                  <Route path="/help/contact" element={<ContactSupportScreen />} />
+                  <Route path="/help/terms" element={<TermsScreen />} />
 
                   {/* Protected Routes */}
                   <Route element={<PrivateRoute />}>
