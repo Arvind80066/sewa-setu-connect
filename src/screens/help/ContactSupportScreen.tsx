@@ -9,7 +9,7 @@ const ContactSupportScreen = () => {
 
   const openWhatsApp = () => {
     // Replace with your actual WhatsApp number
-    window.location.href = 'https://wa.me/+1234567890?text=I%20need%20support';
+    window.location.href = 'wa.link/i9xx7h';
   };
 
   return (
