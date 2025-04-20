@@ -2,15 +2,29 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Mail, MessageSquare, Phone, Whatsapp } from 'lucide-react';
+import { Mail, MessageSquare, Phone } from 'lucide-react';
+
+// ✅ Custom WhatsApp icon component
+const WhatsAppIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    fill="currentColor"
+    className="text-green-600"
+    viewBox="0 0 24 24"
+  >
+    <path d="M20.52 3.48A11.85 11.85 0 0012 0C5.37 0 0 5.37 0 12a11.85 11.85 0 001.66 6.11L0 24l5.89-1.56A11.85 11.85 0 0012 24c6.63 0 12-5.37 12-12a11.85 11.85 0 00-3.48-8.52zM12 21.53a9.54 9.54 0 01-4.82-1.29l-.34-.2-3.49.92.93-3.39-.22-.35A9.54 9.54 0 1121.54 12 9.56 9.56 0 0112 21.53zm5.27-7.3l-1.48-.72a1.1 1.1 0 00-1.26.21l-.65.66a7.42 7.42 0 01-3.61-3.6l.66-.66a1.09 1.09 0 00.2-1.26l-.72-1.48a1.1 1.1 0 00-1.56-.47 4.89 4.89 0 00-2.12 4.12 8.44 8.44 0 008.43 8.43 4.9 4.9 0 004.13-2.12 1.1 1.1 0 00-.48-1.56z"/>
+  </svg>
+);
 
 const ContactSupportScreen = () => {
   const navigate = useNavigate();
 
   const openWhatsApp = () => {
-  const message = encodeURIComponent('Hi! I need support from Sewasetu.');
-  window.open(`https://wa.me/918006670417?text=${message}`, '_blank');
-};
+    const message = encodeURIComponent('Hi! I need support from Sewasetu.');
+    window.open(`https://wa.me/918006670417?text=${message}`, '_blank');
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-3xl">
@@ -85,7 +99,7 @@ const ContactSupportScreen = () => {
 
         <Card className="p-6">
           <div className="flex items-center gap-4 mb-4">
-            <Whatsapp className="w-6 h-6 text-green-600" />
+            <WhatsAppIcon />
             <h2 className="text-xl font-semibold">WhatsApp Support</h2>
           </div>
           <p className="text-gray-600 mb-4">
