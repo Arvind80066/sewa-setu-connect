@@ -8,9 +8,9 @@ const ContactSupportScreen = () => {
   const navigate = useNavigate();
 
   const openWhatsApp = () => {
-    // Replace with your actual WhatsApp number
-    window.location.href = 'wa.link/i9xx7h';
-  };
+  const message = encodeURIComponent('Hi! I need support from Sewasetu.');
+  window.open(`https://wa.me/918006670417?text=${message}`, '_blank');
+};
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-3xl">
