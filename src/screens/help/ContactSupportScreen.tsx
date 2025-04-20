@@ -1,12 +1,16 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Mail, MessageSquare, Phone } from 'lucide-react';
+import { Mail, MessageSquare, Phone, Whatsapp } from 'lucide-react';
 
 const ContactSupportScreen = () => {
   const navigate = useNavigate();
+
+  const openWhatsApp = () => {
+    // Replace with your actual WhatsApp number
+    window.location.href = 'https://wa.me/+1234567890?text=I%20need%20support';
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-3xl">
@@ -76,6 +80,23 @@ const ContactSupportScreen = () => {
             onClick={() => window.location.href = 'tel:+1234567890'}
           >
             Call Support
+          </Button>
+        </Card>
+
+        <Card className="p-6">
+          <div className="flex items-center gap-4 mb-4">
+            <Whatsapp className="w-6 h-6 text-green-600" />
+            <h2 className="text-xl font-semibold">WhatsApp Support</h2>
+          </div>
+          <p className="text-gray-600 mb-4">
+            Get instant support through WhatsApp. Quick and convenient communication.
+          </p>
+          <Button 
+            className="w-full" 
+            variant="outline"
+            onClick={openWhatsApp}
+          >
+            Start WhatsApp Chat
           </Button>
         </Card>
       </div>
